@@ -1,0 +1,25 @@
+quickstart.distributedsort : (a -> a -> Boolean) -> [a] ->{Remote} [a]
+quickstart.distributedsort lessThan as =
+  if List.size as < 2 then as
+  else
+    case halve as of
+      (l, r) ->
+        use Remote at
+        use quickstart distributedsort
+        leftF = at spawn '(distributedsort lessThan l)
+        rightF = at spawn '(distributedsort lessThan r)
+        merge lessThan (force leftF) (force rightF)
+
+wtfhack.stringCompare: (Text -> Text -> Boolean)
+wtfhack.stringCompare string1 string2 =
+  use base.Universal <
+  size1 = Text.size string1
+  size2 = Text.size string2
+  size1 < size2
+
+> runLocal '(quickstart.dsort (<) [8,2,3,1,4,5,6,7])
+> runLocal '(stringCompare "blah" "deblah")
+
+---- Anything below this line is ignored by Unison.
+
+
