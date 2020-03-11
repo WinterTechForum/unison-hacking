@@ -1,0 +1,23 @@
+
+> runLocal '(size "this is a string")
+
+> runLocal '(compareStrings "short" "longerlonger")
+
+> runLocal '(quistart.dsort compareStrings ["aaaaaaaa", "ab", "acb", "aaaaaaaaaaaaaaaa"])
+
+
+wtfhack.compareStrings : Text -> Text -> Boolean
+wtfhack.compareStrings l r =
+  use Text size
+  lsize = size l
+  rsize = size r
+  lsize < rsize
+
+
+use test.v1
+
+test> tests.wtfhack.compareStrings.ex1 = run (expect (compareStrings "a" "aa"))
+test> tests.wtfhack.compareStrings.ex2 = run (expect (not (compareStrings "aa" "a")))
+
+---- Anything below this line is ignored by Unison.
+
